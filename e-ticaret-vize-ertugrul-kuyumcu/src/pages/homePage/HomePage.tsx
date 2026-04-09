@@ -7,7 +7,6 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-// İkonlar
 import RecommendIcon from '@mui/icons-material/Recommend';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
@@ -16,8 +15,6 @@ import type { Product } from '../../types';
 import { products } from '../../data/products';
 import ProductCard from '../../components/ProductCard';
 
-
-// --- ALT BİLEŞEN: Tekrar eden slider yapısını dinamik hale getiriyoruz ---
 interface ProductSliderProps {
     title: string;
     icon: React.ReactNode;
@@ -45,7 +42,6 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ title, icon, productsData
                 }}
             >
                 {productsData.map((product) => (
-                    /* KARTA DIŞARIDAN YATAY SCROLL İÇİN GEREKEN BOYUTLARI SX İLE GÖNDERİYORUZ */
                     <ProductCard
                         key={product.id}
                         product={product}
@@ -57,10 +53,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ title, icon, productsData
     );
 };
 
-// --- ANA BİLEŞEN ---
 export default function HomePage() {
-    // Şimdilik verileri 3 farklı kategoriye bölmek için slice() ile parçalıyoruz.
-    // Gerçek projede (Finalde) bunlar Firebase'den kategoriye göre (where koşulu ile) çekilecek.
     const recommendedProducts = products.slice(0, 5);
     const bestSellers = products.slice(5, 10);
     const hotDeals = products.slice(10, 15);
@@ -68,23 +61,19 @@ export default function HomePage() {
     return (
         <Container maxWidth="xl" sx={{ mt: 4, mb: 5 }}>
 
-            {/* 1. Önerilenler */}
             <ProductSlider
                 title="Önerilenler"
                 icon={<RecommendIcon color="primary" fontSize="large" />}
                 productsData={recommendedProducts}
-                seeAllLink="/products" // İleride Tüm Ürünler sayfası yapınca buraya gidecek
+                seeAllLink="/products" 
             />
 
-            {/* 2. Çok Satanlar */}
             <ProductSlider
                 title="Çok Satanlar"
                 icon={<TrendingUpIcon color="success" fontSize="large" />}
                 productsData={bestSellers}
                 seeAllLink="/products"
             />
-
-            {/* 3. Sıcak Teklifler */}
             <ProductSlider
                 title="Sıcak Teklifler"
                 icon={<LocalFireDepartmentIcon color="error" fontSize="large" />}

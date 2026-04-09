@@ -6,7 +6,6 @@ import { useFavorites } from '../../context/FavoritesContext';
 export default function FavoritesPage() {
   const { favorites } = useFavorites();
 
-  // Sadece ID'si favoriler listesinde olan ürünleri filtrele
   const favoriteProducts = products.filter(product => favorites.includes(product.id));
 
   return (

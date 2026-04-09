@@ -1,15 +1,12 @@
 import { Card, CardMedia, CardContent, Typography, Box, Button, IconButton } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-
-// İkonlar
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'; // 1. Sepet ikonumuzu ekledik
-
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import type { Product } from '../types';
 import { useFavorites } from '../context/FavoritesContext';
-import { useCart } from '../context/CartContext'; // 2. Sepet Context'ini dahil ettik
+import { useCart } from '../context/CartContext';
 
 interface ProductCardProps {
     product: Product;
@@ -18,7 +15,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, sx }: ProductCardProps) {
     const { favorites, toggleFavorite } = useFavorites();
-    const { addToCart } = useCart(); // 3. Sepete ekleme fonksiyonunu çektik
+    const { addToCart } = useCart(); 
 
     const isFavorite = favorites.includes(product.id);
 
@@ -30,7 +27,6 @@ export default function ProductCard({ product, sx }: ProductCardProps) {
                 '&:hover': { transform: 'scale(1.02)', boxShadow: 6 }, ...sx
             }}
         >
-            {/* KALBİMİZ */}
             <IconButton
                 onClick={() => toggleFavorite(product.id)}
                 sx={{
@@ -59,7 +55,6 @@ export default function ProductCard({ product, sx }: ProductCardProps) {
                         {product.price} TL
                     </Typography>
 
-                    {/* YENİ: İncele ve Sepete Ekle Butonlarını Yan Yana Dizdik */}
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <IconButton
                             color="primary"

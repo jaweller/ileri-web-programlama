@@ -26,7 +26,6 @@ export default function CartPage() {
             </Typography>
 
             <Grid container spacing={4}>
-                {/* Sol Taraf: Sepetteki Ürünler */}
                 <Grid size={{ xs: 12, md: 8 }}>
                     {cartItems.map((item) => (
                         <Card key={item.product.id} sx={{ display: 'flex', mb: 2, p: 1, alignItems: 'center' }}>
@@ -36,8 +35,6 @@ export default function CartPage() {
                                     <Typography variant="h6">{item.product.name}</Typography>
                                     <Typography color="primary" fontWeight="bold">{item.product.price} TL</Typography>
                                 </Box>
-
-                                {/* Miktar Kontrolleri */}
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                     <IconButton onClick={() => updateQuantity(item.product.id, item.quantity - 1)} size="small" color="primary">
                                         <RemoveIcon />
@@ -55,8 +52,6 @@ export default function CartPage() {
                         </Card>
                     ))}
                 </Grid>
-
-                {/* Sağ Taraf: Sipariş Özeti */}
                 <Grid size={{ xs: 12, md: 4 }}>
                     <Card sx={{ p: 3 }}>
                         <Typography variant="h5" fontWeight="bold" gutterBottom>Sipariş Özeti</Typography>

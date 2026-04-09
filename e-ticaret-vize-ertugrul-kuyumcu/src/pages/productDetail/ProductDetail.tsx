@@ -15,8 +15,6 @@ import {
   ListItemText, 
   Grid
 } from '@mui/material';
-
-// İkonlar
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -27,11 +25,9 @@ import { useCart } from '../../context/CartContext';
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const navigate = useNavigate(); // Geri dönme işlemi için
+  const navigate = useNavigate(); 
   const product = products.find(p => p.id === Number(id));
   const { addToCart } = useCart();
-
-  // Eğer ürün bulunamazsa gösterilecek ekran
   if (!product) {
     return (
       <Container sx={{ mt: 10, textAlign: 'center' }}>
@@ -47,7 +43,6 @@ export default function ProductDetail() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 5, mb: 10 }}>
-      {/* Üst Kısım: Geri Butonu */}
       <Button 
         onClick={() => navigate(-1)} 
         startIcon={<ArrowBackIcon />} 
@@ -57,11 +52,9 @@ export default function ProductDetail() {
         Geri Dön
       </Button>
 
-      {/* Ana Ürün Kartı */}
       <Paper elevation={3} sx={{ p: { xs: 3, md: 5 }, borderRadius: 3 }}>
         <Grid container spacing={6}>
           
-          {/* 1. SÜTUN: ÜRÜN GÖRSELİ */}
           <Grid size={{ xs: 12, md: 6 }}>
             <Box sx={{ 
               borderRadius: 3, 
@@ -74,7 +67,6 @@ export default function ProductDetail() {
               bgcolor: '#f8f9fa',
               position: 'relative'
             }}>
-              {/* Eğer ürün "Featured" (Öne Çıkan) ise resmin üstüne bir etiket koyalım */}
               {product.featured && (
                 <Chip 
                   label="Öne Çıkan" 
@@ -91,34 +83,24 @@ export default function ProductDetail() {
             </Box>
           </Grid>
           
-          {/* 2. SÜTUN: ÜRÜN DETAYLARI */}
           <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', flexDirection: 'column' }}>
             
-            {/* Kategori ve Marka */}
             <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
               <Chip label={product.category} color="primary" variant="outlined" size="small" sx={{ fontWeight: 'bold' }} />
               <Chip label={product.brand} color="secondary" variant="outlined" size="small" sx={{ fontWeight: 'bold' }} />
             </Box>
-
-            {/* Ürün Adı */}
             <Typography variant="h3" component="h1" gutterBottom fontWeight="900" sx={{ fontSize: { xs: '2rem', md: '2.5rem' }, letterSpacing: '-0.5px' }}>
               {product.name}
             </Typography>
-
-            {/* Yıldızlar ve Değerlendirme Sayısı */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
               <Rating value={product.rating} precision={0.1} readOnly size="medium" />
               <Typography variant="body2" color="text.secondary" fontWeight="bold" sx={{ mt: 0.5 }}>
                 {product.rating} ({product.reviewsCount} Değerlendirme)
               </Typography>
             </Box>
-
-            {/* Fiyat */}
             <Typography variant="h4" color="primary.main" fontWeight="900" gutterBottom sx={{ fontSize: '2.2rem' }}>
               {product.price.toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL
             </Typography>
-
-            {/* Stok Durumu */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
               {product.stock > 0 ? (
                 <>
@@ -138,13 +120,9 @@ export default function ProductDetail() {
             </Box>
 
             <Divider sx={{ mb: 3 }} />
-
-            {/* Açıklama */}
             <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', color: 'text.secondary', lineHeight: 1.7 }}>
               {product.description}
             </Typography>
-
-            {/* Teknik Özellikler Listesi */}
             <Box sx={{ mt: 1, mb: 4, flexGrow: 1 }}>
               <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ color: 'text.primary' }}>
                 Öne Çıkan Özellikler:
@@ -163,8 +141,6 @@ export default function ProductDetail() {
                 ))}
               </List>
             </Box>
-
-            {/* Sepete Ekle Butonu */}
             <Box sx={{ mt: 'auto', pt: 2 }}>
               <Button 
                 onClick={() => addToCart(product)}
@@ -172,14 +148,14 @@ export default function ProductDetail() {
                 color="primary" 
                 size="large" 
                 fullWidth
-                disabled={product.stock === 0} // Stok 0 ise butonu kilitler
+                disabled={product.stock === 0} 
                 startIcon={<ShoppingCartIcon />}
                 sx={{ 
                   py: 1.8, 
                   fontSize: '1.2rem', 
                   fontWeight: 'bold', 
                   borderRadius: 2,
-                  boxShadow: '0 8px 16px rgba(25, 118, 210, 0.24)' // Butona derinlik katmak için gölge
+                  boxShadow: '0 8px 16px rgba(25, 118, 210, 0.24)' 
                 }}
               >
                 {product.stock > 0 ? 'Sepete Ekle' : 'Geçici Olarak Temin Edilemiyor'}

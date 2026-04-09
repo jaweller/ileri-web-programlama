@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, type ReactNode } from 'react';
-import { Snackbar, Alert } from '@mui/material'; // MUI bildirim bileşenlerini ekledik
+import { Snackbar, Alert } from '@mui/material'; 
 import type { Product } from '../types';
 
 export interface CartItem {
@@ -20,22 +20,18 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-    // Toast (Bildirim) State'leri
     const [toastOpen, setToastOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastSeverity, setToastSeverity] = useState<'success' | 'info' | 'warning' | 'error'>('success');
 
-    // Bildirimi tetikleyecek yardımcı fonksiyon
     const showToast = (message: string, severity: 'success' | 'info' | 'warning' | 'error') => {
         setToastMessage(message);
         setToastSeverity(severity);
         setToastOpen(true);
     };
 
-    // Bildirimi kapatma fonksiyonu
     const handleCloseToast = (_event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') return; // Kullanıcı boşluğa tıklarsa hemen kapanmasın
+        if (reason === 'clickaway') return; 
         setToastOpen(false);
     };
 
@@ -51,13 +47,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             }
             return [...prevItems, { product, quantity }];
         });
-        // Başarılı bildirimini tetikle
         showToast(`${product.name} sepete eklendi!`, 'success');
     };
 
     const removeFromCart = (productId: number) => {
         setCartItems((prevItems) => {
-            // Çıkarılan ürünün adını bulmak için
             const itemToRemove = prevItems.find(item => item.product.id === productId);
             if (itemToRemove) {
                 showToast(`${itemToRemove.product.name} sepetten çıkarıldı.`, 'info');
@@ -84,13 +78,11 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return (
         <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, cartTotal, cartCount }}>
             {children}
-
-            {/* TOAST BİLDİRİM BİLEŞENİ */}
             <Snackbar
                 open={toastOpen}
-                autoHideDuration={3000} // 3 saniye sonra otomatik kapanır
+                autoHideDuration={3000} 
                 onClose={handleCloseToast}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} // Sağ alt köşede çıkar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} 
             >
                 <Alert onClose={handleCloseToast} severity={toastSeverity} variant="filled" sx={{ width: '100%' }}>
                     {toastMessage}

@@ -17,21 +17,18 @@ import {
   Tooltip
 } from '@mui/material';
 
-// İkonlar
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import StorefrontIcon from '@mui/icons-material/Storefront'; // Marka ikonu
+import StorefrontIcon from '@mui/icons-material/Storefront'; 
 
-// Context'leri çağırıyoruz (Rozetler için)
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
 
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // Context'lerden sayıları çekiyoruz
   const { cartCount } = useCart();
   const { favorites } = useFavorites();
 
@@ -52,10 +49,8 @@ export default function Layout() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
-      {/* 1. MODERN NAVBAR (Üst Menü) */}
-      <AppBar position="sticky" elevation={3}> {/* sticky ile sayfa kayarken menü üstte kalır */}
+      <AppBar position="sticky" elevation={3}> 
         <Toolbar>
-          {/* Mobil Menü Butonu (Sol Tarafta) */}
           <IconButton
             size="large"
             edge="start"
@@ -67,7 +62,6 @@ export default function Layout() {
             <MenuIcon />
           </IconButton>
 
-          {/* Logo ve Başlık */}
           <StorefrontIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -106,7 +100,6 @@ export default function Layout() {
         </Toolbar>
       </AppBar>
 
-      {/* 2. SIDEBAR (Yan Menü - Drawer) */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{ width: 250, pt: 2 }}
@@ -122,7 +115,6 @@ export default function Layout() {
               <ListItem key={index} disablePadding>
                 <ListItemButton component={Link} to={item.path}>
                   <ListItemIcon sx={{ color: 'primary.main' }}>
-                    {/* Drawer içindeki ikonlara da rozet ekledik */}
                     {item.count !== undefined && item.count > 0 ? (
                       <Badge badgeContent={item.count} color="error">
                         {item.icon}
@@ -139,12 +131,10 @@ export default function Layout() {
         </Box>
       </Drawer>
 
-      {/* 3. ANA İÇERİK */}
       <Box component="main" sx={{ flexGrow: 1, backgroundColor: 'background.default' }}>
         <Outlet />
       </Box>
 
-      {/* 4. FOOTER */}
       <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: '#e0e0e0' }}>
         <Container maxWidth="sm">
           <Typography variant="body2" color="text.secondary" align="center" fontWeight="500">

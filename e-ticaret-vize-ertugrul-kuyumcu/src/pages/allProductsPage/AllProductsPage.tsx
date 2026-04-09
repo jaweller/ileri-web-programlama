@@ -24,7 +24,6 @@ export default function AllProducts() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedBrand, setSelectedBrand] = useState('all');
 
-  // 1. Dinamik olarak benzersiz Kategori ve Marka listelerini oluşturuyoruz
   const categories = useMemo(() => {
     const allCats = products.map(p => p.category);
     return ['all', ...Array.from(new Set(allCats))];
@@ -35,7 +34,6 @@ export default function AllProducts() {
     return ['all', ...Array.from(new Set(allBrands))];
   }, []);
 
-  // 2. Filtreleme Mantığı (Arama + Kategori + Marka)
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
@@ -44,7 +42,6 @@ export default function AllProducts() {
     return matchesSearch && matchesCategory && matchesBrand;
   });
 
-  // 3. Sıralama Mantığı
   const sortedAndFilteredProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
       case 'price-asc': return a.price - b.price;
@@ -55,7 +52,6 @@ export default function AllProducts() {
     }
   });
 
-  // Filtreleri sıfırlama fonksiyonu
   const resetFilters = () => {
     setSearchTerm('');
     setSortBy('default');
@@ -70,7 +66,6 @@ export default function AllProducts() {
         Tüm Ürünler
       </Typography>
 
-      {/* FİLTRELEME PANELİ */}
       <Box sx={{
         p: 3,
         mb: 4,
@@ -98,7 +93,6 @@ export default function AllProducts() {
         </Box>
 
         <Grid container spacing={2}>
-          {/* Arama */}
           <Grid size={{ xs: 12, md: 3 }}>
             <TextField
               fullWidth
@@ -112,7 +106,6 @@ export default function AllProducts() {
             />
           </Grid>
 
-          {/* Kategori Filtresi */}
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth size="small" sx={{ backgroundColor: 'white' }}>
               <InputLabel>Kategori</InputLabel>
@@ -130,7 +123,6 @@ export default function AllProducts() {
             </FormControl>
           </Grid>
 
-          {/* Marka Filtresi */}
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <FormControl fullWidth size="small" sx={{ backgroundColor: 'white' }}>
               <InputLabel>Marka</InputLabel>
@@ -148,7 +140,6 @@ export default function AllProducts() {
             </FormControl>
           </Grid>
 
-          {/* Sıralama */}
           <Grid size={{ xs: 12, md: 3 }}>
             <FormControl fullWidth size="small" sx={{ backgroundColor: 'white' }}>
               <InputLabel>Sırala</InputLabel>
@@ -168,14 +159,12 @@ export default function AllProducts() {
         </Grid>
       </Box>
 
-      {/* SONUÇ BİLGİSİ */}
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="body2" color="text.secondary" fontWeight="500">
           {sortedAndFilteredProducts.length} ürün listeleniyor
         </Typography>
       </Box>
 
-      {/* ÜRÜN LİSTESİ */}
       {sortedAndFilteredProducts.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 10 }}>
           <Typography variant="h5" color="text.secondary" gutterBottom>

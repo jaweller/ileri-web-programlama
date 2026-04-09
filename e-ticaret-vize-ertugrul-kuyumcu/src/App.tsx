@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
-// Sayfaları ve yeni Layout'umuzu içe aktarıyoruz
 import Layout from './components/Layout';
 import ProductDetail from './pages/productDetail/ProductDetail';
 import HomePage from './pages/homePage/HomePage';
@@ -9,7 +8,7 @@ import AllProducts from './pages/allProductsPage/AllProductsPage';
 import { FavoritesProvider } from './context/FavoritesContext';
 import FavoritesPage from './pages/favoritesPage/FavoritesPage';
 import { CartProvider } from './context/CartContext';
-import CartPage from './pages/cartPage/cartPage';
+import CartPage from './pages/cartPage/CartPage';
 
 const theme = createTheme({
   palette: {

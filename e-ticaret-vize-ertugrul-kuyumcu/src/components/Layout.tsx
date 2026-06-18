@@ -22,6 +22,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // Yeni İkon
 import LogoutIcon from '@mui/icons-material/Logout'; // Çıkış İkonu
@@ -50,6 +51,7 @@ export default function Layout() {
     { text: 'Tüm Ürünler', icon: <StorefrontIcon />, path: '/products' },
     { text: 'Sepetim', icon: <ShoppingCartIcon />, path: '/cart', count: cartCount },
     { text: 'Favorilerim', icon: <FavoriteIcon />, path: '/favorites', count: favorites.length },
+    { text: 'Siparişlerim', icon: <LocalShippingIcon />, path: '/orders' }
   ];
 
   // EĞER ADMİNSE: Menünün en başına veya sonuna Admin Paneli seçeneği ekle
@@ -116,6 +118,13 @@ export default function Layout() {
               <IconButton color="inherit" component={Link} to="/cart">
                 <Badge badgeContent={cartCount} color="error">
                   <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Siparişlerim">
+              <IconButton color="inherit" component={Link} to="/orders">
+                <Badge color="error">
+                  <LocalShippingIcon />
                 </Badge>
               </IconButton>
             </Tooltip>

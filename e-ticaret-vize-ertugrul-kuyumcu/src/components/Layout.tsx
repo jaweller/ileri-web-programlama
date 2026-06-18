@@ -14,23 +14,28 @@ import {
   Box,
   Container,
   Badge,
-  Tooltip
+  Tooltip,
+  Button
 } from '@mui/material';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import StorefrontIcon from '@mui/icons-material/Storefront'; 
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'; // Yeni İkon
+import LogoutIcon from '@mui/icons-material/Logout'; // Çıkış İkonu
 
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { useAuth } from '../context/AuthContext'; // AuthContext Entegre Edildi
 
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const { cartCount } = useCart();
   const { favorites } = useFavorites();
+  const { isAdmin, logout } = useAuth(); // Adminlik durumu ve logout metodu çekildi
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
@@ -39,6 +44,7 @@ export default function Layout() {
     setDrawerOpen(open);
   };
 
+  // Çekmece menü elemanları
   const drawerItems = [
     { text: 'Ana Sayfa', icon: <HomeIcon />, path: '/' },
     { text: 'Tüm Ürünler', icon: <StorefrontIcon />, path: '/products' },
@@ -46,10 +52,15 @@ export default function Layout() {
     { text: 'Favorilerim', icon: <FavoriteIcon />, path: '/favorites', count: favorites.length },
   ];
 
+  // EĞER ADMİNSE: Menünün en başına veya sonuna Admin Paneli seçeneği ekle
+  if (isAdmin) {
+    drawerItems.push({ text: 'Admin Paneli', icon: <AdminPanelSettingsIcon />, path: '/admin' });
+  }
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
-      <AppBar position="sticky" elevation={3}> 
+      <AppBar position="sticky" elevation={3}>
         <Toolbar>
           <IconButton
             size="large"
@@ -80,6 +91,19 @@ export default function Layout() {
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
 
+            {/* Sadece Admin Giriş Yaptıysa Sağ Üstte "Admin Paneli" Butonu Göster */}
+            {isAdmin && (
+              <Button
+                component={Link}
+                to="/admin"
+                color="inherit"
+                startIcon={<AdminPanelSettingsIcon />}
+                sx={{ mr: 1, fontWeight: 'bold', border: '1px solid currentColor' }}
+              >
+                Admin
+              </Button>
+            )}
+
             <Tooltip title="Favorilerim">
               <IconButton color="inherit" component={Link} to="/favorites">
                 <Badge badgeContent={favorites.length} color="error">
@@ -93,6 +117,13 @@ export default function Layout() {
                 <Badge badgeContent={cartCount} color="error">
                   <ShoppingCartIcon />
                 </Badge>
+              </IconButton>
+            </Tooltip>
+
+            {/* Çıkış Yap Butonu */}
+            <Tooltip title="Çıkış Yap">
+              <IconButton color="inherit" onClick={logout}>
+                <LogoutIcon />
               </IconButton>
             </Tooltip>
 

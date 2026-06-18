@@ -15,9 +15,9 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, sx }: ProductCardProps) {
     const { favorites, toggleFavorite } = useFavorites();
-    const { addToCart } = useCart(); 
+    const { addToCart } = useCart();
 
-    const isFavorite = favorites.includes(product.id);
+    const isFavorite = favorites.includes(product.id!);
 
     return (
         <Card
@@ -28,7 +28,7 @@ export default function ProductCard({ product, sx }: ProductCardProps) {
             }}
         >
             <IconButton
-                onClick={() => toggleFavorite(product.id)}
+                onClick={() => toggleFavorite(product.id!)}
                 sx={{
                     position: 'absolute', top: 8, right: 8,
                     backgroundColor: 'rgba(255, 255, 255, 0.7)',

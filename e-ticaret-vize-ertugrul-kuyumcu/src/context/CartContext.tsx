@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, type ReactNode } from 'react';
-import { Snackbar, Alert } from '@mui/material'; 
+import { Snackbar, Alert } from '@mui/material';
 import type { Product } from '../types';
 
 export interface CartItem {
@@ -12,6 +12,7 @@ interface CartContextType {
     addToCart: (product: Product, quantity?: number) => void;
     removeFromCart: (productId: number) => void;
     updateQuantity: (productId: number, quantity: number) => void;
+    clearCart: () => void; // 1. BURAYA EKLEDİK: Interface'e metodumuzu yazdık
     cartTotal: number;
     cartCount: number;
 }
@@ -31,7 +32,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     const handleCloseToast = (_event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') return; 
+        if (reason === 'clickaway') return;
         setToastOpen(false);
     };
 
@@ -72,17 +73,24 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         );
     };
 
+    // 2. BURAYA EKLEDİK: Sepeti tamamen boşaltan fonksiyon gövdesi
+    const clearCart = () => {
+        setCartItems([]);
+        showToast('Sepetiniz başarıyla temizlendi.', 'info');
+    };
+
     const cartTotal = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
     const cartCount = cartItems.reduce((count, item) => count + item.quantity, 0);
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, cartTotal, cartCount }}>
+        // 3. BURAYA EKLEDİK: Provider value içerisine clearCart'ı teslim ettik
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal, cartCount }}>
             {children}
             <Snackbar
                 open={toastOpen}
-                autoHideDuration={3000} 
+                autoHideDuration={3000}
                 onClose={handleCloseToast}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} 
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
                 <Alert onClose={handleCloseToast} severity={toastSeverity} variant="filled" sx={{ width: '100%' }}>
                     {toastMessage}

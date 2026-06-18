@@ -1,12 +1,27 @@
 import { Container, Grid, Typography, Box } from '@mui/material';
 import ProductCard from '../../components/ProductCard';
-import { products } from '../../data/products';
 import { useFavorites } from '../../context/FavoritesContext';
+import { useState, useEffect } from 'react';
+import api from '../../api/axiosInstance';
+import type { Product } from '../../types';
 
 export default function FavoritesPage() {
   const { favorites } = useFavorites();
+  const [products, setProducts] = useState<Product[]>([]);
+  const favoriteProducts = products.filter(product => favorites.includes(product.id!));
 
-  const favoriteProducts = products.filter(product => favorites.includes(product.id));
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get<Product[]>('/products');
+        setProducts(response.data);
+      } catch (err) {
+      } finally {
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 5 }}>
